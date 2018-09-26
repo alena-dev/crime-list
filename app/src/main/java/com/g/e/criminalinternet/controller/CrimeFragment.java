@@ -1,4 +1,4 @@
-package com.g.e.criminalinternet;
+package com.g.e.criminalinternet.controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+
+import com.g.e.criminalinternet.R;
+import com.g.e.criminalinternet.model.Crime;
 
 public class CrimeFragment extends Fragment {
 

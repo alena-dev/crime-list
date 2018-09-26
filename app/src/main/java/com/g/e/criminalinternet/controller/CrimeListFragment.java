@@ -1,4 +1,4 @@
-package com.g.e.criminalinternet;
+package com.g.e.criminalinternet.controller;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,6 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.g.e.criminalinternet.R;
+import com.g.e.criminalinternet.model.Crime;
+import com.g.e.criminalinternet.model.CrimeLab;
 
 import java.util.List;
 

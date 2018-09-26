@@ -1,8 +1,10 @@
-package com.g.e.criminalinternet;
+package com.g.e.criminalinternet.controller;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+
+import com.g.e.criminalinternet.R;
 
 public abstract class SingleFragmentActivity extends AppCompatActivity {
 

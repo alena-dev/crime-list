@@ -1,4 +1,4 @@
-package com.g.e.criminalinternet;
+package com.g.e.criminalinternet.model;
 
 import android.content.Context;
 
@@ -27,6 +27,7 @@ public class CrimeLab {
             Crime crime= new Crime();
             crime.setTitle("Crime #"+i);
             crime.setSolved(i%2==0); //for every second obj
+//            crime.setRequiredPolice(i%2==0); //for every second obj
             mCrimesList.add(crime);
         }
     }

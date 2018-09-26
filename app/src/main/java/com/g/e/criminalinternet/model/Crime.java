@@ -1,4 +1,4 @@
-package com.g.e.criminalinternet;
+package com.g.e.criminalinternet.model;
 
 import java.util.Date;
 import java.util.UUID;
@@ -8,6 +8,7 @@ public class Crime {
     private String mTitle;
     private Date mDate;
     private boolean mSolved;
+//    private boolean mRequiresPolice;
 
     public Crime() {
         mId = UUID.randomUUID();
@@ -41,4 +42,13 @@ public class Crime {
     public boolean isSolved(){
         return mSolved;
     }
+
+//    public void setRequiredPolice (boolean requiredPolice){
+//        mRequiresPolice =requiredPolice;
+//    }
+
+//    public boolean isRequiresPolice(){
+//        return mRequiresPolice;
+//    }
+
 }
