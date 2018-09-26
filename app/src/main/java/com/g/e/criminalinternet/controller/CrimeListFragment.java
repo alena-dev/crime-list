@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,33 +48,26 @@ public class CrimeListFragment extends Fragment {
         mCrimeRecycleView.setAdapter(mAdapter);
     }
 
-
-    // imlementation ViewHolder
-    private class CrimeHolder extends RecyclerView.ViewHolder
-    implements View.OnClickListener{
-
-        private TextView mTitleTextView;
-        private TextView mDateTextView;
+    private abstract class CrimeHolderBase extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected TextView mTitleTextView;
+        protected TextView mDateTextView;
         private Crime mCrime;
 
-        public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_crime,
-                    parent, false));
-
-            itemView.setOnClickListener(this);
-
+        public CrimeHolderBase(View itemView) {
+            super(itemView);
             mTitleTextView = (TextView) itemView
                     .findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView
                     .findViewById(R.id.crime_date);
 
+            itemView.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View view){
-            Toast.makeText(getActivity(),
-                    mCrime.getTitle()+"clicked", Toast.LENGTH_SHORT)
-                    .show();
+        public void onClick(View view) {
+        Toast.makeText(getActivity(),
+                mCrime.getTitle() + "clicked", Toast.LENGTH_SHORT)
+                .show();
         }
 
         public void bind(Crime crime) {
@@ -83,10 +77,32 @@ public class CrimeListFragment extends Fragment {
         }
     }
 
+    // imlementation ViewHolder
+    private class CrimeHolder extends CrimeHolderBase {
+        public CrimeHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_crime,
+                    parent, false));
+        }
+    }
+
+    private class CrimeHolderRequiredPolice extends CrimeHolderBase {
+        private final Button mCallPoliceButton;
+
+        public CrimeHolderRequiredPolice(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.list_item_serious_crime,
+                    parent, false));
+
+            mCallPoliceButton = (Button) itemView
+                    .findViewById(R.id.crime_button_call_police);
+        }
+    }
+
     // imlementation Adapter
-    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
+    private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolderBase> {
 
         private List<Crime> mCrimesList;
+        private final int REQUIRED_POLICE_VIEW_TYPE = 1;
+        private final int UNREQUIRED_POLICE_VIEW_TYPE = 2;
 
         public CrimeAdapter(List<Crime> crimesList) {
             mCrimesList = crimesList;
@@ -94,13 +110,13 @@ public class CrimeListFragment extends Fragment {
 
         @NonNull
         @Override
-        public CrimeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public CrimeHolderBase onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new CrimeHolder(layoutInflater, parent);
+            return new CrimeHolderRequiredPolice(layoutInflater, parent);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull CrimeHolder holder, int position) {
+        public void onBindViewHolder(@NonNull CrimeHolderBase holder, int position) {
             Crime crime = mCrimesList.get(position);
             holder.bind(crime);
         }
@@ -109,5 +125,17 @@ public class CrimeListFragment extends Fragment {
         public int getItemCount() {
             return mCrimesList.size();
         }
+
+//        @Override
+//        public int getItemViewType(int position) {
+//
+//            if (mCrimesList.isEmpty()) return 0;
+//
+//            if (mCrimesList.get(position)
+//                    .isRequiresPolice())
+//                return REQUIRED_POLICE_VIEW_TYPE;
+//
+//            return UNREQUIRED_POLICE_VIEW_TYPE;
+//        }
     }
 }
