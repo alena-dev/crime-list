@@ -65,9 +65,9 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view) {
-        Toast.makeText(getActivity(),
-                mCrime.getTitle() + "clicked", Toast.LENGTH_SHORT)
-                .show();
+            Toast.makeText(getActivity(),
+                    mCrime.getTitle() + " clicked", Toast.LENGTH_SHORT)
+                    .show();
         }
 
         public void bind(Crime crime) {
@@ -94,6 +94,14 @@ public class CrimeListFragment extends Fragment {
 
             mCallPoliceButton = (Button) itemView
                     .findViewById(R.id.crime_button_call_police);
+            mCallPoliceButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getActivity(),
+                            mCallPoliceButton.getText() + " clicked", Toast.LENGTH_SHORT)
+                            .show();
+                }
+            });
         }
     }
 
@@ -112,8 +120,16 @@ public class CrimeListFragment extends Fragment {
         @Override
         public CrimeHolderBase onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            return new CrimeHolderRequiredPolice(layoutInflater, parent);
+
+            if (viewType == REQUIRED_POLICE_VIEW_TYPE)
+                return new CrimeHolderRequiredPolice(layoutInflater, parent);
+
+            if (viewType == UNREQUIRED_POLICE_VIEW_TYPE)
+                return new CrimeHolder(layoutInflater, parent);
+
+            throw new IllegalArgumentException("Unknown viewType");
         }
+
 
         @Override
         public void onBindViewHolder(@NonNull CrimeHolderBase holder, int position) {
@@ -126,16 +142,16 @@ public class CrimeListFragment extends Fragment {
             return mCrimesList.size();
         }
 
-//        @Override
-//        public int getItemViewType(int position) {
-//
-//            if (mCrimesList.isEmpty()) return 0;
-//
-//            if (mCrimesList.get(position)
-//                    .isRequiresPolice())
-//                return REQUIRED_POLICE_VIEW_TYPE;
-//
-//            return UNREQUIRED_POLICE_VIEW_TYPE;
-//        }
+        @Override
+        public int getItemViewType(int position) {
+
+            if (mCrimesList.isEmpty()) return 0;
+
+            if (mCrimesList.get(position)
+                    .isRequiresPolice())
+                return REQUIRED_POLICE_VIEW_TYPE;
+
+            return UNREQUIRED_POLICE_VIEW_TYPE;
+        }
     }
 }
