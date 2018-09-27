@@ -1,5 +1,7 @@
 package com.g.e.criminalinternet.controller;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +46,8 @@ public class CrimeFragment extends Fragment {
         super.onCreate(savedInstanceState);
         UUID crimeId = (UUID)getArguments().getSerializable(ARG_CRIME_ID);
         mCrime= CrimeLab.get(getActivity()).getCrime(crimeId);
+
+        setResult();
     }
 
     @Nullable
@@ -85,5 +89,10 @@ public class CrimeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void setResult() {
+        Intent intent = CrimeListFragment.CreateIntent(mCrime.getId());
+        getActivity().setResult(Activity.RESULT_OK, intent);
     }
 }
