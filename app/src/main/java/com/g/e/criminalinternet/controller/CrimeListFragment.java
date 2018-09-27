@@ -17,7 +17,10 @@ import com.g.e.criminalinternet.R;
 import com.g.e.criminalinternet.model.Crime;
 import com.g.e.criminalinternet.model.CrimeLab;
 
+import java.text.DateFormat;
 import java.util.List;
+
+import static android.text.format.DateFormat.*;
 
 public class CrimeListFragment extends Fragment {
 
@@ -82,7 +85,12 @@ public class CrimeListFragment extends Fragment {
         public void bind(Crime crime) {
             mCrime = crime;
             mTitleTextView.setText(mCrime.getTitle());
-            mDateTextView.setText(mCrime.getDate().toString());
+
+            //CharSequence dateStr = DateFormat.format("yyyy-MM-dd hh:mm:ss a", mCrime.getDate());
+            String dateStr = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.MEDIUM)
+                    .format(mCrime.getDate());
+            mDateTextView.setText(dateStr);
+
             mSolvedImageView.setVisibility(crime.isSolved()
                     ? View.VISIBLE : View.GONE);
         }
