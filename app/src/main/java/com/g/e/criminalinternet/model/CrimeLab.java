@@ -36,6 +36,14 @@ public class CrimeLab {
         return mCrimesList;
     }
 
+    public int getSize(){
+        return mCrimesList.size();
+    }
+
+    public Crime getCrime(int position){
+        return mCrimesList.get(position);
+    }
+
     public Crime getCrime(UUID id){
         for(Crime crime:mCrimesList){
             if(crime.getId().equals(id)) return crime;
