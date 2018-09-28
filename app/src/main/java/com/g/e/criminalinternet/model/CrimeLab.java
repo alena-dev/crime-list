@@ -37,9 +37,9 @@ public class CrimeLab {
         }
     }
 
-    public List<Crime> getCrimesList(){
-        return mCrimesList;
-    }
+//    public List<Crime> getCrimesList(){
+//        return mCrimesList;
+//    }
 
     public Crime getCrime(UUID id){
 //        SystemClock.sleep(300);
@@ -48,7 +48,13 @@ public class CrimeLab {
 //        }
 //        return null;
         return mCrimesHashMap.get(id);
+    }
 
+    public Crime getCrime(int position) {
+        return mCrimesList.get(position);
+    }
 
+    public int getSize(){
+        return mCrimesList.size();
     }
 }

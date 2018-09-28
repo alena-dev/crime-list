@@ -63,9 +63,8 @@ public class CrimeListFragment extends Fragment {
 
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
-        List<Crime> crimesList = crimeLab.getCrimesList();
         if (mAdapter == null) {
-            mAdapter = new CrimeAdapter(crimesList);
+            mAdapter = new CrimeAdapter(crimeLab);
             mCrimeRecycleView.setAdapter(mAdapter);
         } else {
             //mAdapter.notifyDataSetChanged();
@@ -81,10 +80,10 @@ public class CrimeListFragment extends Fragment {
     // implementation Adapter
     private class CrimeAdapter extends RecyclerView.Adapter<CrimeHolder> {
 
-        private List<Crime> mCrimesList;
+        private CrimeLab mCrimeLab;
 
-        public CrimeAdapter(List<Crime> crimesList) {
-            mCrimesList = crimesList;
+        public CrimeAdapter(CrimeLab crimesLab) {
+            mCrimeLab = CrimeLab.get(getActivity());
         }
 
         @NonNull
@@ -96,18 +95,18 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(@NonNull CrimeHolder holder, int position) {
-            Crime crime = mCrimesList.get(position);
+            Crime crime = mCrimeLab.getCrime(position);
             holder.bind(crime);
         }
 
         @Override
         public int getItemCount() {
-            return mCrimesList.size();
+            return mCrimeLab.getSize();
         }
 
         private int getPositionById(UUID crimeId) {
-            for (int i = 0; i < mCrimesList.size(); i++) {
-                UUID id = mCrimesList.get(i).getId();
+            for (int i = 0; i < mCrimeLab.getSize(); i++) {
+                UUID id = mCrimeLab.getCrime(i).getId();
                 if (crimeId.equals(id)) return i;
             }
 
