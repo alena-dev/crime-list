@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.g.e.criminalinternet.R;
 import com.g.e.criminalinternet.model.Crime;
@@ -89,7 +88,7 @@ public class CrimeListFragment extends Fragment {
 
         @Override
         public void onClick(View view){
-            Intent intent =CrimePagerActivity.newIntent(getActivity(),mCrime.getId());
+            Intent intent =CrimePagerActivity.createIntent(getActivity(),mCrime.getId());
             startActivity(intent);
         }
 

@@ -23,7 +23,7 @@ public class CrimePagerActivity extends AppCompatActivity{
     private ViewPager mViewPager;
     private CrimeLab mCrimeLab;
 
-    public static Intent newIntent(Context packageContext, UUID crimeId){
+    public static Intent createIntent(Context packageContext, UUID crimeId){
         Intent intent= new Intent(packageContext, CrimePagerActivity.class);
         intent.putExtra(EXTRA_CRIME_ID, crimeId);
         return intent;
