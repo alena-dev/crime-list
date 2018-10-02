@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -50,7 +51,7 @@ public class CrimeListFragment extends Fragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         updateUI();
     }
@@ -61,20 +62,33 @@ public class CrimeListFragment extends Fragment {
         inflater.inflate(R.menu.fragment_crime_list_menu, menu);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.new_crime:
+                Crime crime = new Crime();
+                CrimeLab.get(getActivity()).addCrime(crime);
+                Intent intent = CrimePagerActivity
+                        .createIntent(getActivity(), crime.getId());
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimesList = crimeLab.getCrimesList();
-        if(mAdapter==null) {
+        if (mAdapter == null) {
             mAdapter = new CrimeAdapter(crimesList);
             mCrimeRecycleView.setAdapter(mAdapter);
-        } else{
+        } else {
             mAdapter.notifyDataSetChanged();
         }
 
 
     }
-
-
 
 
     // imlementation ViewHolder
@@ -96,13 +110,13 @@ public class CrimeListFragment extends Fragment {
                     .findViewById(R.id.crime_title);
             mDateTextView = (TextView) itemView
                     .findViewById(R.id.crime_date);
-            mSolvedImageView=(ImageView)itemView
+            mSolvedImageView = (ImageView) itemView
                     .findViewById(R.id.crime_solved);
         }
 
         @Override
-        public void onClick(View view){
-            Intent intent =CrimePagerActivity.createIntent(getActivity(),mCrime.getId());
+        public void onClick(View view) {
+            Intent intent = CrimePagerActivity.createIntent(getActivity(), mCrime.getId());
             startActivity(intent);
         }
 

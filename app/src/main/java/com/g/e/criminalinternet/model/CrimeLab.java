@@ -12,41 +12,37 @@ public class CrimeLab {
     private static CrimeLab sCrimeLab;
     private List<Crime> mCrimesList;
 
-    public static CrimeLab get(Context context){
-        if(sCrimeLab==null)
-            sCrimeLab=new CrimeLab(context);
+    public static CrimeLab get(Context context) {
+        if (sCrimeLab == null)
+            sCrimeLab = new CrimeLab(context);
 
         return sCrimeLab;
     }
 
-    private CrimeLab (Context context){
-        mCrimesList=new ArrayList<>();
-
-        // temporary using e.g.
-        for (int i=0; i<100; i++){
-            Crime crime= new Crime();
-            crime.setTitle("Crime #"+i);
-            crime.setSolved(i%2==0); //for every second obj
-//            crime.setRequiredPolice(i%2==0); //for every second obj
-            mCrimesList.add(crime);
-        }
+    private CrimeLab(Context context) {
+        mCrimesList = new ArrayList<>();
     }
 
-    public List<Crime> getCrimesList(){
+    public void addCrime(Crime crime) {
+        mCrimesList.add(crime);
+    }
+
+
+    public List<Crime> getCrimesList() {
         return mCrimesList;
     }
 
-    public int getSize(){
+    public int getSize() {
         return mCrimesList.size();
     }
 
-    public Crime getCrime(int position){
+    public Crime getCrime(int position) {
         return mCrimesList.get(position);
     }
 
-    public Crime getCrime(UUID id){
-        for(Crime crime:mCrimesList){
-            if(crime.getId().equals(id)) return crime;
+    public Crime getCrime(UUID id) {
+        for (Crime crime : mCrimesList) {
+            if (crime.getId().equals(id)) return crime;
         }
         return null;
     }
