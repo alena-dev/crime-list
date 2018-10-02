@@ -98,7 +98,7 @@ public class CrimeListFragment extends Fragment {
         int crimeCount = crimeLab.getSize();
         String subtitle = getString(R.string.subtitle_format, crimeCount);
 
-        if(!mSubtitleVisible) 
+        if(!mSubtitleVisible)
             subtitle=null;
 
         AppCompatActivity activity=(AppCompatActivity)getActivity();
@@ -115,7 +115,7 @@ public class CrimeListFragment extends Fragment {
             mAdapter.notifyDataSetChanged();
         }
 
-
+        updateSubtitle();
     }
 
 
