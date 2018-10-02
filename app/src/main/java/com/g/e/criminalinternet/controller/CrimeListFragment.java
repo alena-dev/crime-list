@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -72,9 +73,20 @@ public class CrimeListFragment extends Fragment {
                         .createIntent(getActivity(), crime.getId());
                 startActivity(intent);
                 return true;
+            case R.id.show_subtitle:
+                updateSubtitle();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void updateSubtitle(){
+        CrimeLab crimeLab=CrimeLab.get(getActivity());
+        int crimeCount = crimeLab.getSize();
+        String subtitle = getString(R.string.subtitle_format, crimeCount);
+        AppCompatActivity activity=(AppCompatActivity)getActivity();
+        activity.getSupportActionBar().setSubtitle(subtitle);
     }
 
     private void updateUI() {
