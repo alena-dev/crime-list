@@ -1,6 +1,9 @@
 package com.g.e.criminalinternet.model;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+
+import com.g.e.criminalinternet.database.CrimeBaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +13,10 @@ public class CrimeLab {
 
     // sName - for Android that is static
     private static CrimeLab sCrimeLab;
+
     private List<Crime> mCrimesList;
+    //private Context mContext;
+    private SQLiteDatabase mDataBase;
 
     public static CrimeLab get(Context context) {
         if (sCrimeLab == null)
@@ -20,6 +26,10 @@ public class CrimeLab {
     }
 
     private CrimeLab(Context context) {
+//        mContext = context.getApplicationContext();
+        mDataBase = new CrimeBaseHelper(context.getApplicationContext())
+                .getWritableDatabase();
+
         mCrimesList = new ArrayList<>();
     }
 
