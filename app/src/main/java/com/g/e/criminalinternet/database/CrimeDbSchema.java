@@ -1,6 +1,6 @@
 package com.g.e.criminalinternet.database;
 
-class CrimeDbSchema {
+public class CrimeDbSchema {
     public static final class CrimeTable {
         public static final String NAME = "crimes";
 
