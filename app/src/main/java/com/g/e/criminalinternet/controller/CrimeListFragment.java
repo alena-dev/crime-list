@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class CrimeListFragment extends Fragment {
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
     private LinearLayout mNoCrimesLayout;
+    private Button mAddCrimeButton;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +54,14 @@ public class CrimeListFragment extends Fragment {
                 (getActivity()));
         mNoCrimesLayout =(LinearLayout)view
                 .findViewById(R.id.no_crimes_layout);
+        mAddCrimeButton=(Button)view
+                .findViewById(R.id.add_crime_button);
+        mAddCrimeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AddCrime();
+            }
+        });
 
         if(savedInstanceState!=null)
             mSubtitleVisible=savedInstanceState
@@ -60,6 +70,14 @@ public class CrimeListFragment extends Fragment {
         updateUI();
 
         return view;
+    }
+
+    private void AddCrime() {
+        Crime crime = new Crime();
+        CrimeLab.get(getActivity()).addCrime(crime);
+        Intent intent = CrimePagerActivity
+                .createIntent(getActivity(), crime.getId());
+        startActivity(intent);
     }
 
     @Override
@@ -91,11 +109,7 @@ public class CrimeListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.new_crime:
-                Crime crime = new Crime();
-                CrimeLab.get(getActivity()).addCrime(crime);
-                Intent intent = CrimePagerActivity
-                        .createIntent(getActivity(), crime.getId());
-                startActivity(intent);
+                AddCrime();
                 return true;
             case R.id.show_subtitle:
 
