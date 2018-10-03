@@ -45,7 +45,7 @@ public class CrimePagerActivity extends AppCompatActivity{
             @Override
             public Fragment getItem(int position) {
                 Crime crime= mCrimeLab.getCrime(position);
-                return CrimeFragment.newInstance(crime.getId());
+                return CrimeFragment.createInstance(crime.getId());
             }
 
             @Override

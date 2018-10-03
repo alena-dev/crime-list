@@ -12,6 +12,8 @@
     <string name="hide_subtitle">Hide Subtitle</string>
     <string name="subtitle_format">%1$d crimes</string>
 
+    <string name="remove_crime">Remove crime</string>
+
 
     <string name="item_crime_title_label">Crime Title</string>
     <string name="item_crime_date_label">Crime Date</string>
