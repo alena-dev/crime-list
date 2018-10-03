@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.g.e.criminalinternet.R;
@@ -30,6 +31,7 @@ public class CrimeListFragment extends Fragment {
     private RecyclerView mCrimeRecycleView;
     private CrimeAdapter mAdapter;
     private boolean mSubtitleVisible;
+    private LinearLayout mNoCrimesLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -48,6 +50,8 @@ public class CrimeListFragment extends Fragment {
                 .findViewById(R.id.crime_recycler_view);
         mCrimeRecycleView.setLayoutManager(new LinearLayoutManager
                 (getActivity()));
+        mNoCrimesLayout =(LinearLayout)view
+                .findViewById(R.id.no_crimes_layout);
 
         if(savedInstanceState!=null)
             mSubtitleVisible=savedInstanceState
@@ -120,6 +124,14 @@ public class CrimeListFragment extends Fragment {
     private void updateUI() {
         CrimeLab crimeLab = CrimeLab.get(getActivity());
         List<Crime> crimesList = crimeLab.getCrimesList();
+
+        if(crimesList.isEmpty()){
+            mNoCrimesLayout.setVisibility(View.VISIBLE);
+        }
+        else{
+            mNoCrimesLayout.setVisibility(View.INVISIBLE);
+        }
+
         if (mAdapter == null) {
             mAdapter = new CrimeAdapter(crimesList);
             mCrimeRecycleView.setAdapter(mAdapter);
