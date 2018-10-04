@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.g.e.criminalinternet.database.CrimeDbSchema.CrimeTable;
+import com.g.e.criminalinternet.model.Crime;
 
 public class CrimeBaseHelper extends SQLiteOpenHelper {
     private static final int VERSION = 1;
@@ -21,7 +22,8 @@ public class CrimeBaseHelper extends SQLiteOpenHelper {
                 CrimeTable.Cols.UUID + "," +
                 CrimeTable.Cols.TITLE + "," +
                 CrimeTable.Cols.DATE + "," +
-                CrimeTable.Cols.SOLVED + ")"
+                CrimeTable.Cols.SOLVED + "," +
+                CrimeTable.Cols.SUSPECT + ")"
         );
     }
 
