@@ -14,6 +14,7 @@ import com.g.e.criminalinternet.R;
 import com.g.e.criminalinternet.model.Crime;
 import com.g.e.criminalinternet.model.CrimeLab;
 
+import java.util.List;
 import java.util.UUID;
 
 public class CrimePagerActivity extends AppCompatActivity{
@@ -44,8 +45,8 @@ public class CrimePagerActivity extends AppCompatActivity{
 
             @Override
             public Fragment getItem(int position) {
-                Crime crime= mCrimeLab.getCrime(position);
-                return CrimeFragment.newInstance(crime.getId());
+                List<Crime> crimeList=mCrimeLab.getCrimesList();
+                return CrimeFragment.newInstance(crimeList.get(position).getId());
             }
 
             @Override
@@ -54,7 +55,7 @@ public class CrimePagerActivity extends AppCompatActivity{
             }
         });
         for(int i=0; i<mCrimeLab.getSize(); i++){
-            if(mCrimeLab.getCrime(i).getId().equals(crimeId)){
+            if(mCrimeLab.getCrimesList().get(i).getId().equals(crimeId)){
                 mViewPager.setCurrentItem(i);
                 break;
             }
