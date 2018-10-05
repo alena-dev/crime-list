@@ -3,6 +3,7 @@ package com.g.e.criminalinternet.controller;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -31,12 +32,14 @@ public class CrimeFragment extends Fragment {
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
     private static final int REQUEST_DATE = 0;
+    private static final int REQUEST_CONTACT = 1;
 
     private Crime mCrime;
     private EditText mTitleField;
     private Button mDateButton;
     private CheckBox mSolvedCheckBox;
     private Button mReportButton;
+    private Button mSuspectButton;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -67,7 +70,7 @@ public class CrimeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_crime, container, false);
 
-        mTitleField = (EditText) view.findViewById(R.id.crime_title);
+        mTitleField = view.findViewById(R.id.crime_title);
         mTitleField.setText(mCrime.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -87,7 +90,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mDateButton = (Button) view.findViewById(R.id.crime_date);
+        mDateButton = view.findViewById(R.id.crime_date);
         updateDate();
         mDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -100,7 +103,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mSolvedCheckBox = (CheckBox) view.findViewById(R.id.crime_solved);
+        mSolvedCheckBox = view.findViewById(R.id.crime_solved);
         mSolvedCheckBox.setChecked(mCrime.isSolved());
         mSolvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -109,7 +112,7 @@ public class CrimeFragment extends Fragment {
             }
         });
 
-        mReportButton = (Button) view
+        mReportButton = view
                 .findViewById(R.id.crime_report_button);
         mReportButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,13 +127,26 @@ public class CrimeFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        final Intent pickContact = new Intent(Intent.ACTION_PICK,
+                ContactsContract.Contacts.CONTENT_URI);
+        mSuspectButton = view
+                .findViewById(R.id.crime_suspect_button);
+        mSuspectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(pickContact, REQUEST_CONTACT);
+            }
+        });
+        if (mCrime.getSuspect() != null)
+            mSuspectButton.setText(mCrime.getSuspect());
+
         return view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode != Activity.RESULT_OK) return;
-        ;
 
         if (requestCode == REQUEST_DATE) {
             Date date = (Date) data
@@ -145,7 +161,7 @@ public class CrimeFragment extends Fragment {
     }
 
     private String getCrimeReport() {
-        String solvedString = null;
+        String solvedString;
         if (mCrime.isSolved()) {
             solvedString = getString(R.string.crime_report_solved);
         } else {
@@ -162,8 +178,7 @@ public class CrimeFragment extends Fragment {
         else
             suspect = getString(R.string.crime_report_suspect, suspect);
 
-        String report = getString(R.string.crime_report, mCrime.getTitle(),
+        return getString(R.string.crime_report, mCrime.getTitle(),
                 dateString, solvedString, suspect);
-        return report;
     }
 }
