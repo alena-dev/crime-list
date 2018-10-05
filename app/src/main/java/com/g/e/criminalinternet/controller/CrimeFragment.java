@@ -2,6 +2,8 @@ package com.g.e.criminalinternet.controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -153,6 +155,25 @@ public class CrimeFragment extends Fragment {
                     .getSerializableExtra(DatePickerFragment.EXTRA_DATE);
             mCrime.setDate(date);
             updateDate();
+        } else if (requestCode == REQUEST_CONTACT && data != null) {
+            Uri contactUri = data.getData();
+            //create fields, their values will be return by request
+            String[] queryFields = new String[]{
+                    ContactsContract.Contacts.DISPLAY_NAME
+            };
+            // here "where" is complite request- contactUri
+            try (Cursor cursor = getActivity().getContentResolver()
+                    .query(contactUri, queryFields,
+                            null, null, null)) {
+                // check get results
+                if (cursor.getCount() == 0) return;
+
+                //Extract the first column of data - the name of the suspect
+                cursor.moveToFirst();
+                String suspect = cursor.getString(0);
+                mCrime.setSuspect(suspect);
+                mSuspectButton.setText(suspect);
+            }
         }
     }
 
