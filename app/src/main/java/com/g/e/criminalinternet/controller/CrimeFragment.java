@@ -2,6 +2,7 @@ package com.g.e.criminalinternet.controller;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -132,6 +133,8 @@ public class CrimeFragment extends Fragment {
 
         final Intent pickContact = new Intent(Intent.ACTION_PICK,
                 ContactsContract.Contacts.CONTENT_URI);
+//        // for testing
+//        pickContact.addCategory(Intent.CATEGORY_HOME);
         mSuspectButton = view
                 .findViewById(R.id.crime_suspect_button);
         mSuspectButton.setOnClickListener(new View.OnClickListener() {
@@ -143,6 +146,11 @@ public class CrimeFragment extends Fragment {
         if (mCrime.getSuspect() != null)
             mSuspectButton.setText(mCrime.getSuspect());
 
+        PackageManager packageManager = getActivity()
+                .getPackageManager();
+        if (packageManager.resolveActivity(pickContact,
+                PackageManager.MATCH_DEFAULT_ONLY) == null)
+            mSuspectButton.setEnabled(false);
         return view;
     }
 
