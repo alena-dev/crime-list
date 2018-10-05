@@ -43,6 +43,7 @@ public class CrimeFragment extends Fragment {
     private CheckBox mSolvedCheckBox;
     private Button mReportButton;
     private Button mSuspectButton;
+    private Button mCallSuspectButton;
 
     public static CrimeFragment newInstance(UUID crimeId) {
         Bundle args = new Bundle();
@@ -151,6 +152,9 @@ public class CrimeFragment extends Fragment {
         if (packageManager.resolveActivity(pickContact,
                 PackageManager.MATCH_DEFAULT_ONLY) == null)
             mSuspectButton.setEnabled(false);
+
+        mCallSuspectButton = view.findViewById(R.id.call_suspect_button);
+        updateCallSuspectButton();
         return view;
     }
 
@@ -181,6 +185,8 @@ public class CrimeFragment extends Fragment {
                 String suspect = cursor.getString(0);
                 mCrime.setSuspect(suspect);
                 mSuspectButton.setText(suspect);
+
+                updateCallSuspectButton();
             }
         }
     }
@@ -209,5 +215,12 @@ public class CrimeFragment extends Fragment {
 
         return getString(R.string.crime_report, mCrime.getTitle(),
                 dateString, solvedString, suspect);
+    }
+
+    private void updateCallSuspectButton() {
+        if (mCrime.getSuspect() == null)
+            mCallSuspectButton.setVisibility(View.INVISIBLE);
+        else
+            mCallSuspectButton.setVisibility(View.VISIBLE);
     }
 }
