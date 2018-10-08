@@ -11,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ShareCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
@@ -155,7 +156,23 @@ public class CrimeFragment extends Fragment {
 
         mCallSuspectButton = view.findViewById(R.id.call_suspect_button);
         updateCallSuspectButton();
+        mCallSuspectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                dialPhoneNumber(phoneNumber); //TODO get phone number
+                dialPhoneNumber("0701");
+            }
+        });
         return view;
+    }
+
+    private void dialPhoneNumber(String phoneNumber) {
+        Intent intent = new Intent(Intent.ACTION_DIAL);
+        intent.setData(Uri.parse("tel:" + phoneNumber));
+        intent = Intent.createChooser(intent, getString(R.string.call_suspect));
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     @Override
