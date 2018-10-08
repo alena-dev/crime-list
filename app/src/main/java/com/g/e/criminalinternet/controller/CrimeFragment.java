@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -27,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.g.e.criminalinternet.PictureUtils;
 import com.g.e.criminalinternet.R;
 import com.g.e.criminalinternet.model.Crime;
 import com.g.e.criminalinternet.model.CrimeLab;
@@ -182,7 +184,7 @@ public class CrimeFragment extends Fragment {
                         .getPackageManager().queryIntentActivities(captureImage,
                                 PackageManager.MATCH_DEFAULT_ONLY);
 
-                for(ResolveInfo activity: cameraActivities){
+                for (ResolveInfo activity : cameraActivities) {
                     getActivity().grantUriPermission(activity.activityInfo.packageName,
                             uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                 }
@@ -192,6 +194,7 @@ public class CrimeFragment extends Fragment {
         });
 
         mPhotoView = view.findViewById(R.id.crime_photo);
+        updatePhotoView();
 
         return view;
     }
@@ -224,6 +227,14 @@ public class CrimeFragment extends Fragment {
                 mCrime.setSuspect(suspect);
                 mSuspectButton.setText(suspect);
             }
+        } else if (requestCode == REQUEST_PHOTO) {
+            Uri uri = FileProvider.getUriForFile(getActivity(),
+                    "com.g.e.criminalinternet.fileprovider", mPhotoFile);
+
+            getActivity().revokeUriPermission(uri,
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+
+            updatePhotoView();
         }
     }
 
@@ -251,5 +262,15 @@ public class CrimeFragment extends Fragment {
 
         return getString(R.string.crime_report, mCrime.getTitle(),
                 dateString, solvedString, suspect);
+    }
+
+    private void updatePhotoView() {
+        if (mPhotoFile == null || !mPhotoFile.exists()) {
+            mPhotoView.setImageDrawable(null);
+        } else {
+            Bitmap bitmap = PictureUtils
+                    .getScaledBitmap(mPhotoFile.getPath(), getActivity());
+            mPhotoView.setImageBitmap(bitmap);
+        }
     }
 }
