@@ -10,6 +10,7 @@ import com.g.e.criminalinternet.database.CrimeCursorWrapper;
 import com.g.e.criminalinternet.database.CrimeDbSchema;
 import com.g.e.criminalinternet.database.CrimeDbSchema.CrimeTable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class CrimeLab {
     // sName - for Android that is static
     private static CrimeLab sCrimeLab;
 
-    //private Context mContext;
+    private Context mContext;
     private SQLiteDatabase mDataBase;
 
     public static CrimeLab get(Context context) {
@@ -30,8 +31,8 @@ public class CrimeLab {
     }
 
     private CrimeLab(Context context) {
-//        mContext = context.getApplicationContext();
-        mDataBase = new CrimeBaseHelper(context.getApplicationContext())
+        mContext = context.getApplicationContext();
+        mDataBase = new CrimeBaseHelper(mContext)
                 .getWritableDatabase();
     }
 
@@ -78,6 +79,12 @@ public class CrimeLab {
         } finally {
             cursor.close();
         }
+    }
+
+    public File getPhotoFile(Crime crime) {
+        File filesDir = mContext.getFilesDir();
+        return new File(filesDir, crime.getPhotoFileName());
+//        if (externalFileDir == null){}
     }
 
     public void updateCrime(Crime crime) {

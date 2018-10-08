@@ -30,7 +30,7 @@
                 android:id="@+id/crime_camera_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scr="@android:drawable/ic_menu_camera" />
+                android:src="@android:drawable/ic_menu_camera" />
 
         </LinearLayout>
 
