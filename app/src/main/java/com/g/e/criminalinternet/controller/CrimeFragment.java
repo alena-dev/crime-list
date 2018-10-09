@@ -28,6 +28,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import com.g.e.criminalinternet.ImageFragment;
 import com.g.e.criminalinternet.R;
 import com.g.e.criminalinternet.model.Crime;
 import com.g.e.criminalinternet.model.CrimeLab;
@@ -42,6 +43,7 @@ public class CrimeFragment extends Fragment {
 
     private static final String ARG_CRIME_ID = "crime_id";
     private static final String DIALOG_DATE = "DialogDate";
+    private static final String DIALOG_IMAGE="DialogImage";
     private static final int REQUEST_DATE = 0;
     private static final int REQUEST_CONTACT = 1;
     private static final int REQUEST_PHOTO = 2;
@@ -194,6 +196,14 @@ public class CrimeFragment extends Fragment {
 
         mPhotoView = view.findViewById(R.id.crime_photo);
         updatePhotoView();
+        mPhotoView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getFragmentManager();
+                ImageFragment dialog = new ImageFragment();
+                dialog.show(manager, DIALOG_IMAGE);
+            }
+        });
 
         return view;
     }
@@ -266,10 +276,12 @@ public class CrimeFragment extends Fragment {
     private void updatePhotoView() {
         if (mPhotoFile == null || !mPhotoFile.exists()) {
             mPhotoView.setImageDrawable(null);
+            mPhotoView.setEnabled(false);
         } else {
             Bitmap bitmap = PictureUtils
                     .getScaledBitmap(mPhotoFile.getPath(), getActivity());
             mPhotoView.setImageBitmap(bitmap);
+            mPhotoView.setEnabled(true);
         }
     }
 }
