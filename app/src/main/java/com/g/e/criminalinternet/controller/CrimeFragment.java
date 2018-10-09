@@ -21,6 +21,7 @@ import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -193,7 +194,17 @@ public class CrimeFragment extends Fragment {
         });
 
         mPhotoView = view.findViewById(R.id.crime_photo);
-        updatePhotoView();
+        final ViewTreeObserver observer = mPhotoView.getViewTreeObserver();
+        if (observer.isAlive()) {
+            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    mPhotoView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                    updatePhotoView(mPhotoView.getWidth(), mPhotoView.getHeight());
+                }
+            });
+        }
+
 
         return view;
     }
@@ -233,7 +244,7 @@ public class CrimeFragment extends Fragment {
             getActivity().revokeUriPermission(uri,
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
 
-            updatePhotoView();
+            updatePhotoView(mPhotoView.getWidth(), mPhotoView.getHeight());
         }
     }
 
@@ -263,12 +274,12 @@ public class CrimeFragment extends Fragment {
                 dateString, solvedString, suspect);
     }
 
-    private void updatePhotoView() {
+    private void updatePhotoView(int destWidth, int destHeight) {
         if (mPhotoFile == null || !mPhotoFile.exists()) {
             mPhotoView.setImageDrawable(null);
         } else {
             Bitmap bitmap = PictureUtils
-                    .getScaledBitmap(mPhotoFile.getPath(), getActivity());
+                    .getScaledBitmap(mPhotoFile.getPath(), destWidth, destHeight);
             mPhotoView.setImageBitmap(bitmap);
         }
     }
