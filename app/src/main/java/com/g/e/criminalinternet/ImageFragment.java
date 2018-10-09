@@ -1,34 +1,33 @@
 package com.g.e.criminalinternet;
 
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
-import com.g.e.criminalinternet.controller.DatePickerFragment;
+import com.g.e.criminalinternet.controller.PictureUtils;
 
-import java.util.Date;
-import java.util.GregorianCalendar;
+import java.io.File;
 
-public class ImageFragment extends DialogFragment{
+public class ImageFragment extends DialogFragment {
 
-//    private static final String ARG_DATE="image";
+    private static final String ARG_IMAGE_FILE = "image";
 
-//    public static ImageFragment createInstance (Date date){
-//        Bundle args=new Bundle();
-//        args.putSerializable(ARG_DATE,date);
-//
-//        ImageFragment fragment=new ImageFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
+    private ImageView mImageView;
+
+    public static ImageFragment createInstance(File imageFile) {
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_IMAGE_FILE, imageFile);
+
+        ImageFragment fragment = new ImageFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Nullable
     @Override
@@ -37,6 +36,13 @@ public class ImageFragment extends DialogFragment{
                              @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.dialog_image, container, false);
 
+        mImageView = view.findViewById(R.id.image_dialog);
+        File imageFile = (File) getArguments().getSerializable(ARG_IMAGE_FILE);
+
+
+        Bitmap bitmap = PictureUtils
+                .getScaledBitmap(imageFile.getPath(), getActivity());
+        mImageView.setImageBitmap(bitmap);
 
         return view;
     }

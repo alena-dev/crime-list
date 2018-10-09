@@ -200,7 +200,7 @@ public class CrimeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getFragmentManager();
-                ImageFragment dialog = new ImageFragment();
+                ImageFragment dialog = ImageFragment.createInstance(mPhotoFile);
                 dialog.show(manager, DIALOG_IMAGE);
             }
         });
