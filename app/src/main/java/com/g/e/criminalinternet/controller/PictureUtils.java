@@ -1,4 +1,4 @@
-package com.g.e.criminalinternet;
+package com.g.e.criminalinternet.controller;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
