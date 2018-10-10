@@ -7,7 +7,15 @@ import com.g.e.criminalinternet.R;
 import com.g.e.criminalinternet.model.Crime;
 
 public class CrimeListActivity extends SingleFragmentActivity
-implements CrimeListFragment.Callbacks{
+implements CrimeListFragment.Callbacks, CrimeFragment.Callbacks{
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+        CrimeListFragment listFragment=(CrimeListFragment)
+                getSupportFragmentManager()
+                        .findFragmentById(R.id.fragment_container);
+        listFragment.updateUI();
+    }
 
     @Override
     public void onCrimeSelected(Crime crime) {

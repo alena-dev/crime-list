@@ -17,12 +17,18 @@ import com.g.e.criminalinternet.model.CrimeLab;
 import java.util.List;
 import java.util.UUID;
 
-public class CrimePagerActivity extends AppCompatActivity{
+public class CrimePagerActivity extends AppCompatActivity
+implements CrimeFragment.Callbacks{
 
     private static final String EXTRA_CRIME_ID="com.g.e.criminalinternet.crime_id";
 
     private ViewPager mViewPager;
     private CrimeLab mCrimeLab;
+
+    @Override
+    public void onCrimeUpdated(Crime crime) {
+
+    }
 
     public static Intent createIntent(Context packageContext, UUID crimeId){
         Intent intent= new Intent(packageContext, CrimePagerActivity.class);
