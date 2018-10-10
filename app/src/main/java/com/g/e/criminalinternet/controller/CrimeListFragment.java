@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -17,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.g.e.criminalinternet.R;
 import com.g.e.criminalinternet.model.Crime;
@@ -69,8 +72,36 @@ public class CrimeListFragment extends Fragment {
         mCrimeRecycleView.setLayoutManager(new LinearLayoutManager
                 (getActivity()));
 
-        if(savedInstanceState!=null)
-            mSubtitleVisible=savedInstanceState
+
+        ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0,
+                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                                  RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction) {
+                final int position = viewHolder.getAdapterPosition(); //swiped position
+
+                //yourarraylist.remove(position);
+                updateUI();
+                mAdapter.notifyItemRemoved(position);
+                //mAdapter.mCrimesList.remove(position);
+
+                Toast toast = Toast.makeText(getActivity(), "Swipped", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.TOP, 0, 0);
+                toast.show();
+
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(mCrimeRecycleView);
+
+        if (savedInstanceState != null)
+            mSubtitleVisible = savedInstanceState
                     .getBoolean(SAVED_SUBTITLE_VISIBLE);
 
         updateUI();
