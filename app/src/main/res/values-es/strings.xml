@@ -27,6 +27,4 @@
     <string name="crime_report_subject">IntentoCriminal Informe del Crimen</string>
     <string name="send_report">Enviar el informe del crimen a través de</string>
 
-    <string name="item_crime_title_label">Crime Title</string>
-    <string name="item_crime_date_label">Crime Date</string>
 </resources>
