@@ -45,7 +45,7 @@ public class CrimePagerActivity extends AppCompatActivity{
             @Override
             public Fragment getItem(int position) {
                 Crime crime= mCrimeLab.getCrime(position);
-                return CrimeFragment.newInstance(crime.getId());
+                return CrimeFragment.createInstance(crime.getId());
             }
 
             @Override
@@ -53,6 +53,7 @@ public class CrimePagerActivity extends AppCompatActivity{
                 return mCrimeLab.getSize();
             }
         });
+
         for(int i=0; i<mCrimeLab.getSize(); i++){
             if(mCrimeLab.getCrime(i).getId().equals(crimeId)){
                 mViewPager.setCurrentItem(i);

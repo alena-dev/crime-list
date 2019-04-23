@@ -27,6 +27,15 @@ public class CrimeLab {
         mCrimesList.add(crime);
     }
 
+    public void removeCrime(Crime crime){
+        for (Crime item : mCrimesList) {
+
+            if (item.getId().equals(crime.getId())) {
+                mCrimesList.remove(item);
+                return;
+            }
+        }
+    }
 
     public List<Crime> getCrimesList() {
         return mCrimesList;
