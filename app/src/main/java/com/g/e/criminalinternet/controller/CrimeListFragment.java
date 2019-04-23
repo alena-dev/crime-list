@@ -86,13 +86,23 @@ public class CrimeListFragment extends Fragment {
                 final int position = viewHolder.getAdapterPosition(); //swiped position
 
                 //yourarraylist.remove(position);
-                updateUI();
+
                 mAdapter.notifyItemRemoved(position);
                 //mAdapter.mCrimesList.remove(position);
+                Crime crime = mAdapter.mCrimesList.get(position);
+                CrimeLab.get(getActivity()).removeCrime(crime);
 
-                Toast toast = Toast.makeText(getActivity(), "Swipped", Toast.LENGTH_SHORT);
+                String toastText;
+                if(crime.getTitle()!=null)
+                    toastText = "Crime "+ crime.getTitle()+" removed";
+                else
+                    toastText = "Crime "+ crime.getId().toString()+" removed";
+
+                Toast toast = Toast.makeText(getActivity(), toastText, Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.TOP, 0, 0);
                 toast.show();
+
+                updateUI();
 
             }
         };
