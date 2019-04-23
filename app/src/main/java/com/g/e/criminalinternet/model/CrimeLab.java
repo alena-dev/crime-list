@@ -41,13 +41,10 @@ public class CrimeLab {
     }
 
     public void removeCrime(Crime crime){
-        for (Crime item : mCrimesList) {
+        mDataBase.delete(CrimeTable.NAME,
+                CrimeTable.Cols.UUID + "=?",
+                new String[]{crime.getId().toString()});
 
-            if (item.getId().equals(crime.getId())) {
-                mCrimesList.remove(item);
-                return;
-            }
-        }
     }
 
     public List<Crime> getCrimesList() {
