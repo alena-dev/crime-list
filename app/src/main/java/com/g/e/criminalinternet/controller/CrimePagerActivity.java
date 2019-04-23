@@ -52,7 +52,7 @@ implements CrimeFragment.Callbacks{
             @Override
             public Fragment getItem(int position) {
                 List<Crime> crimeList=mCrimeLab.getCrimesList();
-                return CrimeFragment.newInstance(crimeList.get(position).getId());
+                return CrimeFragment.createInstance(crimeList.get(position).getId());
             }
 
             @Override
@@ -60,6 +60,7 @@ implements CrimeFragment.Callbacks{
                 return mCrimeLab.getSize();
             }
         });
+
         for(int i=0; i<mCrimeLab.getSize(); i++){
             if(mCrimeLab.getCrimesList().get(i).getId().equals(crimeId)){
                 mViewPager.setCurrentItem(i);
