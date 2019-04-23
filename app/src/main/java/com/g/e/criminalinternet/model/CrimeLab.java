@@ -40,6 +40,15 @@ public class CrimeLab {
         mDataBase.insert(CrimeTable.NAME, null, values);
     }
 
+    public void removeCrime(Crime crime){
+        for (Crime item : mCrimesList) {
+
+            if (item.getId().equals(crime.getId())) {
+                mCrimesList.remove(item);
+                return;
+            }
+        }
+    }
 
     public List<Crime> getCrimesList() {
         List<Crime> crimeList = new ArrayList<>();
