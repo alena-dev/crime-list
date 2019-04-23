@@ -24,7 +24,7 @@ implements CrimeListFragment.Callbacks, CrimeFragment.Callbacks{
                     crime.getId());
             startActivity(intent);
         } else {
-            Fragment newDetail=CrimeFragment.newInstance(crime.getId());
+            Fragment newDetail=CrimeFragment.createInstance(crime.getId());
 
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.detail_fragment_container, newDetail)
